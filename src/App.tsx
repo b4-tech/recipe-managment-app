@@ -6,6 +6,7 @@ import { Provider } from 'react-redux';
 import { persistor, store } from './redux/store/store';
 import { PersistGate } from 'redux-persist/integration/react';
 import PrivateRoute from './components/routes/PrivateRoute';
+import RecipesGrid from './components/recipe/RecipesGrid';
 
 function App() {
 
@@ -15,6 +16,7 @@ function App() {
         <Router>
           <NavBar />
           <Routes>
+            <Route path='/' element={<RecipesGrid />} />
             <Route path="/signin" element={<SignIn />} />
             <Route path="/signup" element={<SignUp />} />
             <Route element={<PrivateRoute />}>

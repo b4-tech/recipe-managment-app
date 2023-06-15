@@ -1,3 +1,4 @@
+import { SelectChangeEvent } from "@mui/material/Select";
 import { FormikHelpers } from "formik/dist/types";
 
 export interface UserState {
@@ -48,4 +49,29 @@ export interface AuthFormProps {
 export interface LoggedInButtonsProps {
 	handleClick: React.MouseEventHandler<HTMLButtonElement>;
 	username: string | null;
+}
+
+export interface RecipeGridProps {
+	recipes: Recipe[];
+	currentRoute?: string
+}
+
+export interface SearchProps {
+	search: string;
+	setSearch: (search: string) => void;
+}
+
+export interface CategoryProps {
+	category: string;
+	categories: string[];
+	handleCategoryChange: (event: SelectChangeEvent) => void;
+}
+
+export interface RecipeCardProps {
+	recipe: Recipe;
+	currentRoute?: string;
+}
+
+export interface RecipeDetailsProps {
+	recipe: Recipe;
 }
