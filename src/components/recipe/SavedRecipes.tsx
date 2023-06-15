@@ -7,7 +7,7 @@ import { useFilterRecipes } from '../../hooks/useFilterRecipes';
 import { useSavedAndFavoriteFilter } from '../../hooks/useSavedAndFavoriteFilter';
 import { useCookingTimeFilter } from '../../hooks/useCookingTimeFilter';
 import { Recipe } from '../../interfaces/interfaces';
-import { RecipeFilterControls } from './RecipeFilterControlsProps';
+import RecipeFilterControls from './RecipeFilterControlsProps';
 
 const SavedRecipesGrid: React.FC = () => {
 	const recipes = useAppSelector(selectRecipes);
@@ -47,7 +47,7 @@ const SavedRecipesGrid: React.FC = () => {
 					handleCookingTimeChange={handleCookingTimeChange}
 					handleCategoryChange={handleCategoryChange}
 					setViewMode={setViewMode}
-					currentRoute={'/savedrecipes'}
+					currentRoute='/savedrecipes'
 				/>
 			</Container>
 			<RecipeGrid recipes={filteredRecipes} currentRoute="/savedrecipes" />

@@ -6,6 +6,8 @@ import { styled } from '@mui/system';
 import { addRecipeToDB } from '../../services/firebase/firebase';
 import { Recipe } from '../../interfaces/interfaces';
 import { addRecipeSchema } from '../utils/valdationSchemas/addRecipeSchema';
+import { useAppSelector } from '../../redux/store/store';
+import { selectUser } from '../../redux/store/selectors';
 
 const StyledBox = styled(Box)({
 	boxShadow: '0px 3px 6px #00000029',
@@ -23,37 +25,42 @@ const StyledButton = styled(Button)({
 });
 
 const AddRecipe: React.FC = () => {
+	const [errorMessage, setErrorMessage] = useState('');
 	const [ingredients, setIngredients] = useState('');
 	const [isRatingClicked, setIsRatingClicked] = useState(false);
+	const { username } = useAppSelector(selectUser)
+
+	const initialValues: Recipe = {
+		id: uuidv1(),
+		title: '',
+		description: '',
+		ingredients: [],
+		instructions: '',
+		image: '',
+		category: '',
+		cookingTime: 1,
+		rating: 0,
+		author: username || ''
+	}
+
+	const onSubmit = async (values: Recipe, { resetForm }: { resetForm: () => void }) => {
+		try {
+			const recipeId = await addRecipeToDB(values);
+			console.log('Recipe added successfully with ID:', recipeId);
+			resetForm();
+		} catch (error) {
+			setErrorMessage(`Error adding recipe: ${error}`);
+		}
+	};
+
 
 	const formik = useFormik({
-		initialValues: {
-			id: uuidv1(),
-			title: '',
-			description: '',
-			ingredients: [],
-			instructions: '',
-			image: '',
-			category: '',
-			cookingTime: 1,
-			rating: 0,
-			author: 'admin'
-		},
+		initialValues: initialValues,
 		validationSchema: addRecipeSchema,
-		onSubmit: (values: Recipe, { resetForm }) => {
-			addRecipeToDB(values)
-				.then((recipeId) => {
-					console.log('Recipe added successfully with ID:', recipeId);
-					resetForm();
-				})
-				.catch((error) => {
-					console.error('Error adding recipe:', error);
-				});
-		},
+		onSubmit: onSubmit
 	});
-	console.log(formik.errors.title);
 
-	const handleRemoveIngredient = (index: any) => {
+	const handleRemoveIngredient = (index: number) => {
 		const newIngredients = [...formik.values.ingredients];
 		newIngredients.splice(index, 1);
 		formik.setFieldValue('ingredients', newIngredients);
@@ -64,18 +71,31 @@ const AddRecipe: React.FC = () => {
 			<Typography variant="h4" gutterBottom>
 				Add Recipe
 			</Typography>
+
+			{errorMessage && (
+				<Typography sx={{ marginBottom: '20px' }} color="error">
+					{errorMessage}
+				</Typography>)
+			}
+
 			<form onSubmit={formik.handleSubmit}>
 				<StyledTextField
 					id="title"
-					label="Title"
+					label={
+						formik.touched.title && formik.errors.title
+							? formik.errors.title
+							: 'Title'
+					}
 					value={formik.values.title}
 					onChange={formik.handleChange}
 					error={formik.touched.title && Boolean(formik.errors.title)}
-					helperText={formik.touched.title && formik.errors.title}
 					fullWidth
 					variant="outlined"
 					size="small"
 				/>
+				{formik.touched.title && formik.errors.title ? (
+					<Typography color="error">{formik.errors.title}</Typography>
+				) : null}
 
 				<StyledTextField
 					id="description"

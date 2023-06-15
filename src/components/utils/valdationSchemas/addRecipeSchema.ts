@@ -1,7 +1,7 @@
 import * as Yup from 'yup';
 
 export const addRecipeSchema = Yup.object().shape({
-	title: Yup.string().required('Title is required.'),
+	title: Yup.string().required('Title is required.').min(3),
 	description: Yup.string().required('Description is required.'),
 	ingredients: Yup
 		.array()

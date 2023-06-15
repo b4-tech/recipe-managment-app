@@ -75,3 +75,17 @@ export interface RecipeCardProps {
 export interface RecipeDetailsProps {
 	recipe: Recipe;
 }
+
+export interface RecipeFilterControlsProps {
+	search: string;
+	setSearch: (value: string) => void;
+	category: string;
+	setCategory: (value: string) => void;
+	cookingTime: number;
+	setCookingTime: (value: number) => void;
+	categories: string[];
+	handleCookingTimeChange: (_event: any, newValue: number | number[]) => void;
+	handleCategoryChange: (event: SelectChangeEvent) => void;
+	setViewMode?: (value: string) => void;
+	currentRoute?: string
+}

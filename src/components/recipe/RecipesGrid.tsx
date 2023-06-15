@@ -9,7 +9,7 @@ import RecipeGrid from './RecipeGrid';
 import { selectRecipes } from '../../redux/store/selectors';
 import { useFilterRecipes } from '../../hooks/useFilterRecipes';
 import { useCookingTimeFilter } from '../../hooks/useCookingTimeFilter';
-import { RecipeFilterControls } from './RecipeFilterControlsProps';
+import RecipeFilterControls from './RecipeFilterControlsProps';
 
 const RecipesGrid: React.FC = () => {
 	const dispatch = useAppDispatch();

@@ -32,6 +32,7 @@ const AuthForm = ({ title, initialValues, formFields, onSubmit, validationSchema
 							{formFields.map((field, index) => (
 								<Grid item xs={12} key={index}>
 									<Field
+										id={field.name}
 										name={field.name}
 										type={field.type}
 										as={TextField}
