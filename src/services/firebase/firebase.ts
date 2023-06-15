@@ -1,6 +1,6 @@
 import { initializeApp } from "firebase/app";
 import { createUserWithEmailAndPassword, getAuth, signInWithEmailAndPassword, signOut } from "firebase/auth";
-import { addDoc, collection, doc, getDoc, getFirestore, setDoc } from "firebase/firestore";
+import { addDoc, arrayRemove, arrayUnion, collection, doc, getDoc, getFirestore, setDoc, updateDoc } from "firebase/firestore";
 import { Recipe } from "../../interfaces/interfaces";
 
 
@@ -83,4 +83,32 @@ export const addRecipeToDB = async (recipe: Recipe) => {
 	const recipesCollectionRef = collection(db, 'recipes');
 	const recipeDocRef = await addDoc(recipesCollectionRef, recipe);
 	return recipeDocRef.id;
+};
+
+export const saveRecipeForUser = async (recipeId: string, userId: string, isFavorite: boolean) => {
+	const userDocRef = doc(db, 'users', userId);
+
+	await updateDoc(userDocRef, {
+		saved: arrayUnion(recipeId)
+	});
+
+	if (isFavorite) {
+		await updateDoc(userDocRef, {
+			favorites: arrayUnion(recipeId)
+		});
+	}
+};
+
+export const unsaveRecipeForUser = async (recipeId: string, userId: string, wasFavorite: boolean) => {
+	const userDocRef = doc(db, 'users', userId);
+
+	await updateDoc(userDocRef, {
+		saved: arrayRemove(recipeId)
+	});
+
+	if (wasFavorite) {
+		await updateDoc(userDocRef, {
+			favorites: arrayRemove(recipeId)
+		});
+	}
 };

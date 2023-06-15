@@ -8,6 +8,7 @@ import { PersistGate } from 'redux-persist/integration/react';
 import PrivateRoute from './components/routes/PrivateRoute';
 import RecipesGrid from './components/recipe/RecipesGrid';
 import AddRecipe from './components/recipe/AddRecipe';
+import SavedRecipes from './components/recipe/SavedRecipes';
 
 function App() {
 
@@ -23,6 +24,7 @@ function App() {
             <Route element={<PrivateRoute />}>
             </Route>
             <Route path="/addrecipe" element={<AddRecipe />} />
+            <Route path="/savedrecipes" element={<SavedRecipes />} />
           </Routes>
         </Router>
       </PersistGate>
