@@ -1,6 +1,7 @@
 import { initializeApp } from "firebase/app";
 import { createUserWithEmailAndPassword, getAuth, signInWithEmailAndPassword, signOut } from "firebase/auth";
-import { doc, getDoc, getFirestore, setDoc } from "firebase/firestore";
+import { addDoc, collection, doc, getDoc, getFirestore, setDoc } from "firebase/firestore";
+import { Recipe } from "../../interfaces/interfaces";
 
 
 const firebaseConfig = {
@@ -77,3 +78,9 @@ export const signInAuthUserWithEmailAndPassword = async (
 };
 
 export const signOutUser = async () => await signOut(auth);
+
+export const addRecipeToDB = async (recipe: Recipe) => {
+	const recipesCollectionRef = collection(db, 'recipes');
+	const recipeDocRef = await addDoc(recipesCollectionRef, recipe);
+	return recipeDocRef.id;
+};
