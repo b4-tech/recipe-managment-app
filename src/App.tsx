@@ -9,6 +9,7 @@ import PrivateRoute from './components/routes/PrivateRoute';
 import RecipesGrid from './components/recipe/RecipesGrid';
 import AddRecipe from './components/recipe/AddRecipe';
 import SavedRecipes from './components/recipe/SavedRecipes';
+import StartCooking from './components/cookingMode/StartCooking';
 
 function App() {
 
@@ -25,6 +26,7 @@ function App() {
             </Route>
             <Route path="/addrecipe" element={<AddRecipe />} />
             <Route path="/savedrecipes" element={<SavedRecipes />} />
+            <Route path="/start-cooking/:id" element={<StartCooking />} />
           </Routes>
         </Router>
       </PersistGate>

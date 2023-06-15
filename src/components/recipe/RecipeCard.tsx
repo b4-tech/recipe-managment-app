@@ -1,4 +1,4 @@
-import { Card, CardMedia, CardContent, Typography } from '@mui/material';
+import { Card, CardMedia, CardContent, Typography, Button } from '@mui/material';
 import { RecipeCardProps } from '../../interfaces/interfaces';
 import { addFavorite, addSaved, removeFavorite, removeSaved } from '../../redux/slices/userSlice'
 import { useAppSelector } from '../../redux/store/store';
@@ -8,8 +8,10 @@ import { selectUser } from '../../redux/store/selectors';
 import RecipeDetails from './RecipeDetails';
 import ActionButton from './ActionButton';
 import { useRecipeAction } from '../../hooks/useRecipeAction';
+import { Link } from 'react-router-dom';
+import { PlayCircleFilled } from '@mui/icons-material';
 
-const RecipeCard: React.FC<RecipeCardProps> = ({ recipe }) => {
+const RecipeCard: React.FC<RecipeCardProps> = ({ recipe, currentRoute }) => {
 	const { favorites, saved, isLoggedIn } = useAppSelector(selectUser);
 
 	const isFavorite = favorites.includes(recipe.id);
@@ -42,10 +44,16 @@ const RecipeCard: React.FC<RecipeCardProps> = ({ recipe }) => {
 						/>
 					</>
 				)}
+				{currentRoute === "/savedrecipes" && (isSaved || isFavorite) && (
+					<Link to={`/start-cooking/${recipe.id}`}>
+						<Button variant="contained" color="primary" startIcon={<PlayCircleFilled />}>
+							Start Cooking
+						</Button>
+					</Link>)
+				}
 			</CardContent>
 		</Card>
 	);
 };
-
 
 export default RecipeCard

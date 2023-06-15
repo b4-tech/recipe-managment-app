@@ -1,8 +1,11 @@
 import { FC } from 'react';
-import { Box, SelectChangeEvent, Slider, Typography } from '@mui/material';
+import { Box, Button, ButtonGroup, SelectChangeEvent, Slider, Typography } from '@mui/material';
 import AccessTimeIcon from '@mui/icons-material/AccessTime';
 import Search from './Search';
 import Category from './Category';
+import BookmarkIcon from '@mui/icons-material/Bookmark';
+import FavoriteIcon from '@mui/icons-material/Favorite';
+import AllInclusiveIcon from '@mui/icons-material/AllInclusive'
 
 interface RecipeFilterControlsProps {
 	search: string;
@@ -14,18 +17,20 @@ interface RecipeFilterControlsProps {
 	categories: string[];
 	handleCookingTimeChange: (_event: any, newValue: number | number[]) => void;
 	handleCategoryChange: (event: SelectChangeEvent) => void;
+	setViewMode: (value: string) => void;
+	currentRoute: string
 }
 
 export const RecipeFilterControls: FC<RecipeFilterControlsProps> = ({
 	search,
 	setSearch,
 	category,
-	setCategory,
 	cookingTime,
-	setCookingTime,
 	categories,
 	handleCookingTimeChange,
 	handleCategoryChange,
+	currentRoute,
+	setViewMode
 }) => {
 	return (
 		<Box sx={{ display: 'flex', flexDirection: 'row', justifyContent: 'space-around', marginBottom: '40px', alignItems: 'center' }}>
@@ -45,7 +50,13 @@ export const RecipeFilterControls: FC<RecipeFilterControlsProps> = ({
 				/>
 				<Typography variant="body2">{cookingTime} mins</Typography>
 			</Box>
-
+			{currentRoute === "/savedrecipes" && (
+				<ButtonGroup sx={{ marginLeft: '10px' }}>
+					<Button variant="contained" onClick={() => setViewMode('all')} startIcon={<AllInclusiveIcon />}>All</Button>
+					<Button variant="contained" onClick={() => setViewMode('saved')} startIcon={<BookmarkIcon />}>Saved</Button>
+					<Button variant="contained" onClick={() => setViewMode('favorites')} startIcon={<FavoriteIcon />}>Favorites</Button>
+				</ButtonGroup>
+			)}
 		</Box>
 	);
 };

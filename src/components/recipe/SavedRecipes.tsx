@@ -1,16 +1,13 @@
 import { useCallback, useState } from 'react';
 import { useAppSelector } from '../../redux/store/store';
 import RecipeGrid from './RecipeGrid';
-import { Button, ButtonGroup, Container, SelectChangeEvent } from '@mui/material';
+import { Container, SelectChangeEvent } from '@mui/material';
 import { selectRecipes } from '../../redux/store/selectors';
 import { useFilterRecipes } from '../../hooks/useFilterRecipes';
 import { useSavedAndFavoriteFilter } from '../../hooks/useSavedAndFavoriteFilter';
 import { useCookingTimeFilter } from '../../hooks/useCookingTimeFilter';
 import { Recipe } from '../../interfaces/interfaces';
 import { RecipeFilterControls } from './RecipeFilterControlsProps';
-import BookmarkIcon from '@mui/icons-material/Bookmark';
-import FavoriteIcon from '@mui/icons-material/Favorite';
-import AllInclusiveIcon from '@mui/icons-material/AllInclusive'
 
 const SavedRecipesGrid: React.FC = () => {
 	const recipes = useAppSelector(selectRecipes);
@@ -49,12 +46,9 @@ const SavedRecipesGrid: React.FC = () => {
 					categories={categories}
 					handleCookingTimeChange={handleCookingTimeChange}
 					handleCategoryChange={handleCategoryChange}
+					setViewMode={setViewMode}
+					currentRoute={'/savedrecipes'}
 				/>
-				<ButtonGroup>
-					<Button onClick={() => setViewMode('all')} startIcon={<AllInclusiveIcon />}>All</Button>
-					<Button onClick={() => setViewMode('saved')} startIcon={<BookmarkIcon />}>Saved</Button>
-					<Button onClick={() => setViewMode('favorites')} startIcon={<FavoriteIcon />}>Favorites</Button>
-				</ButtonGroup>
 			</Container>
 			<RecipeGrid recipes={filteredRecipes} currentRoute="/savedrecipes" />
 		</>
